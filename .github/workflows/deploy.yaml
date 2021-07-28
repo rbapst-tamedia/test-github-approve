@@ -27,6 +27,8 @@ jobs:
   staging:
     needs: build
     name: Deploy to staging
+    environement:
+      name: staging
     runs-on: ubuntu-latest
     steps:
     - run: terraform plan -input=false
