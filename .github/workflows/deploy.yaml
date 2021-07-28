@@ -19,7 +19,7 @@ jobs:
     - run: terraform init -input=false
     - run: terraform plan -input=false -out=terraform.plan
       id: plan
-
+    -run: find . -type f -ls
     - name: Upload Plan Artifact
       uses: actions/upload-artifact@v1
       with:
@@ -38,10 +38,12 @@ jobs:
       name: staging
     runs-on: ubuntu-latest
     steps:
+    -run: find . -type f -ls
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
         name: ALL
+    -run: find . -type f -ls
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
