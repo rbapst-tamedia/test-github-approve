@@ -5,13 +5,12 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+env:
+  # Terraform version to use
+  TERRAFORM_VERSION: 0.14.5
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      # Terraform version to use
-      TERRAFORM_VERSION: 0.14.5
     steps:
     - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v1
@@ -25,3 +24,9 @@ jobs:
         echo "${{ steps.plan.outputs.stdout }}"
         echo "${{ steps.plan.outputs.stderr }}"
         echo "${{ steps.plan.outputs.exitcode }}"
+  staging:
+    needs: build
+    name: Deploy to staging
+    runs-on: ubuntu-latest
+    steps:
+    - run: terraform plan -input=false
