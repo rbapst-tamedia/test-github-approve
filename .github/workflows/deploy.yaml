@@ -38,12 +38,12 @@ jobs:
       name: staging
     runs-on: ubuntu-latest
     steps:
-    -run: find . -type f -ls
+    - run: find . -type f -ls
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
         name: ALL
-    -run: find . -type f -ls
+    - run: find . -type f -ls
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
