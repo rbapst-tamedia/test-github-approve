@@ -42,4 +42,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: ALL
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
     - run: terraform apply -input=false terraform.plan
