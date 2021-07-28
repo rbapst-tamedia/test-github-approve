@@ -17,8 +17,15 @@ jobs:
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
     - run: terraform init -input=false
-    - run: terraform plan -input=false
+    - run: terraform plan -input=false -out=terraform.plan
       id: plan
+
+    - name: Upload Plan Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ALL
+        path: ./
+
     - name: Display info
       run: |
         echo "${{ steps.plan.outputs.stdout }}"
@@ -31,4 +38,8 @@ jobs:
       name: staging
     runs-on: ubuntu-latest
     steps:
-    - run: terraform plan -input=false
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ALL
+    - run: terraform apply -input=false terraform.plan
