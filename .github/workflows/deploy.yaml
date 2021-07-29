@@ -8,6 +8,8 @@ on:
 env:
   # Terraform version to use
   TERRAFORM_VERSION: 0.14.5
+  # Tar file for artifact saving
+  ARTIFACT_TAR: /tmp/ALL.tgz
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,13 +21,12 @@ jobs:
     - run: terraform init -input=false
     - run: terraform plan -input=false -out=terraform.plan
       id: plan
-    - run: df
-    - run: tar cfz ALL.tgz . || true
+    - run: tar cfz ${{ env.ARTIFACT_TAR }} .
     - name: Upload Plan Artifact
       uses: actions/upload-artifact@v1
       with:
         name: ALL
-        path: ALL.tgz
+        path: ${{ env.ARTIFACT_TAR }}
 
     - name: Display info
       run: |
@@ -39,13 +40,11 @@ jobs:
       name: staging
     runs-on: ubuntu-latest
     steps:
-    - run: find . -ls
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
         name: ALL
-    - run: tar xfz ALL.tgz
-    - run: find . -ls
+    - run: tar xfz ${{ env.ARTIFACT_TAR }}
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
