@@ -45,7 +45,7 @@ jobs:
       with:
         name: ALL
     - run: find . -ls
-    - run: tar xfz ${{ basename env.ARTIFACT_TAR }}
+    - run: tar xfz $(basename ${{ env.ARTIFACT_TAR }})
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
