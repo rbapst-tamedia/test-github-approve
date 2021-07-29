@@ -21,6 +21,7 @@ jobs:
     - run: terraform init -input=false
     - run: terraform plan -input=false -out=terraform.plan
       id: plan
+      # Need to use a tar file because the actions/upload-artifact@1 doesn't preserve the rights (https://github.com/actions/upload-artifact#limitations)
     - run: tar cfz ${{ env.ARTIFACT_TAR }} .
     - name: Upload Plan Artifact
       uses: actions/upload-artifact@v1
