@@ -30,9 +30,9 @@ jobs:
 
     - name: Display info
       run: |
-        echo "${{ steps.plan.outputs.stdout }}"
-        echo "${{ steps.plan.outputs.stderr }}"
-        echo "${{ steps.plan.outputs.exitcode }}"
+        echo "terraform plan stdout: ${{ steps.plan.outputs.stdout }}"
+        echo "terraform plan stderr: ${{ steps.plan.outputs.stderr }}"
+        echo "terraform plan exitcode: ${{ steps.plan.outputs.exitcode }}"
   staging:
     needs: build
     name: Deploy to staging
@@ -44,6 +44,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: ALL
+    - run: find . -ls
     - run: tar xfz ./${{ env.ARTIFACT_TAR }}
     - uses: hashicorp/setup-terraform@v1
       with:
