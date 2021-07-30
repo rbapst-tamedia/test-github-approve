@@ -11,3 +11,4 @@ Idea is to have a worflow which deploy dummy terraform resources. Steps are:
 - terraform plan
 - github approve
 - terraform apply
+
